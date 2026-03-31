@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+/* 🔹 Tailwind CSS v4 Theme Configuration 🔹 */
+@theme {
+  --font-inter: "Inter", sans-serif;
+  
+  /* Robust Tailwind CSS v4 dark mode configuration */
+  --dark-mode: selector;
+  
+  /* Custom Palette */
+  --color-primary: #10B981;
+  --color-primary-hover: #059669;
+  --color-secondary: #4F46E5;
+  
+  /* Global Animation */
+  --animate-fade-in: fadeIn 0.5s ease-out forwards;
+}
+
+/* Fallback variant for some environment build issues */
+@variant dark (&:where(.dark, .dark *));
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 🔹 Global Reset & Base Styles 🔹 */
+:root {
+  color-scheme: light;
+  --bg-primary: #F9FAFB;
+  --bg-secondary: #FFFFFF;
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --border-color: #E5E7EB;
+}
+
+/* Explicitly target the root element for variables */
+html.dark,
+html[data-theme="dark"],
+.dark {
+  color-scheme: dark;
+  --bg-primary: #020617; /* obsidian black */
+  --bg-secondary: #0f172a; /* midnight blue */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --border-color: #1e293b;
+}
+
+body {
+  font-family: var(--font-inter);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  @apply antialiased transition-colors duration-300;
+}
+
+/* Use Tailwind v4 @apply with the variables */
+.card-premium {
+  @apply rounded-3xl p-8 shadow-sm border transition-all duration-300;
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+.card-premium:hover {
+  @apply shadow-xl -translate-y-1;
+  border-color: var(--color-primary);
+}
+
+.input-field {
+  @apply w-full border rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all font-medium;
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.input-field:focus {
+  background-color: var(--bg-secondary);
+}
+
+.btn-primary {
+  @apply bg-green-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-green-700 transition duration-300 transform active:scale-95 shadow-lg hover:shadow-green-500/20;
+}
+
+.btn-secondary {
+  @apply bg-indigo-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-indigo-700 transition duration-300 transform active:scale-95 shadow-lg hover:shadow-indigo-500/20;
+}
+
+/* 🔹 Navigation 🔹 */
+.nav-link {
+  @apply flex items-center space-x-3 px-6 py-4 transition-all duration-300 rounded-2xl;
+  color: var(--text-secondary);
+}
+
+.nav-link:hover {
+  @apply bg-gray-100 dark:bg-gray-800;
+  color: var(--color-primary);
+}
+
+.nav-link-active {
+  @apply bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 font-bold border-r-4 border-green-600;
+}
+
+/* 🔹 Recharts Custom Overrides 🔹 */
+.recharts-cartesian-grid-horizontal line, 
+.recharts-cartesian-grid-vertical line {
+  stroke: var(--border-color);
+}
+
+.recharts-text {
+  fill: var(--text-secondary);
+  @apply font-bold;
+}
+
+.recharts-tooltip-cursor {
+  fill: var(--bg-secondary);
+  opacity: 0.1;
+}
