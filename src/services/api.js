@@ -1,10 +1,32 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
+export const applyAuthSession = ({ token, user }) => {
+    if (token) {
+        localStorage.setItem("token", token);
+        axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    }
+
+    if (user) {
+        localStorage.setItem("user", JSON.stringify(user));
+    }
+};
+
+export const clearAuthSession = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    delete axios.defaults.headers.common.Authorization;
+};
+
 const API = axios.create({
     baseURL: "/api",
     timeout: 30000,
 });
+
+const existingToken = localStorage.getItem("token");
+if (existingToken) {
+    axios.defaults.headers.common.Authorization = `Bearer ${existingToken}`;
+}
 
 // Request Interceptor: Inject JWT Token
 API.interceptors.request.use((config) => {
@@ -26,7 +48,7 @@ API.interceptors.response.use((response) => {
 
         // Auto Logout on Unauthorized (Token Expired)
         if (status === 401) {
-            localStorage.clear();
+            clearAuthSession();
             window.location.href = "/login";
             toast.error("Session expired. Please log in again.");
         } 

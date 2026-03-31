@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser, verifyLoginOtp } from "../services/authService";
+import { loginUser, verifyLoginOtp, resendOtp } from "../services/authService";
+import { applyAuthSession } from "../services/api";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import { FiMail, FiLock, FiShield, FiArrowRight } from "react-icons/fi";
@@ -38,8 +39,7 @@ const Login = () => {
         setLoading(true);
         try {
             const res = await verifyLoginOtp({ userId, otp });
-            localStorage.setItem("token", res.token);
-            localStorage.setItem("user", JSON.stringify(res.user));
+            applyAuthSession({ token: res.token, user: res.user });
             toast.success("Welcome back, " + res.user.name);
             navigate("/dashboard");
         } catch (err) {
@@ -53,7 +53,6 @@ const Login = () => {
         if (!userId) return;
         setLoading(true);
         try {
-            const { resendOtp } = await import("../services/authService");
             await resendOtp({ userId });
             toast.success("New code sent!");
         } catch (err) {

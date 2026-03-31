@@ -3,7 +3,7 @@ import axios from "axios";
 import { io } from "socket.io-client";
 
 const NotificationContext = createContext();
-const backendUrl = "https://wastezero-smart-waste-platform.onrender.com";
+const backendUrl = (import.meta.env.VITE_BACKEND_URL || window.location.origin).replace(/\/$/, "");
 
 export const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
@@ -34,7 +34,9 @@ export const NotificationProvider = ({ children }) => {
       fetchNotifications();
       fetchUnreadCount();
 
-      const newSocket = io(backendUrl);
+      const newSocket = io(backendUrl, {
+        withCredentials: true,
+      });
       setSocket(newSocket);
 
       const userStr = localStorage.getItem("user");

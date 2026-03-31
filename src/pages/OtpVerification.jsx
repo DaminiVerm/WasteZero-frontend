@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { verifyRegisterOtp, verifyLoginOtp, resendOtp } from "../services/authService";
+import { applyAuthSession } from "../services/api";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { FiShield, FiRefreshCw, FiArrowLeft } from "react-icons/fi";
@@ -33,8 +34,7 @@ function OtpVerification() {
         setTimeout(() => navigate("/login"), 1500);
       } else if (type === "login") {
         const data = await verifyLoginOtp({ userId, otp });
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        applyAuthSession({ token: data.token, user: data.user });
         toast.success("Authenticated successfully!");
         localStorage.removeItem("otpUserId");
         localStorage.removeItem("otpType");

@@ -147,7 +147,7 @@ const Register = () => {
                         <div className="space-y-2">
                             <label className="text-xs font-bold text-gray-500 uppercase tracking-widest pl-1">I want to join as a:</label>
                             <div className="grid grid-cols-3 gap-3">
-                                {["volunteer", "ngo", "admin"].map(role => (
+                                {["volunteer", "ngo"].map(role => (
                                     <div 
                                         key={role}
                                         onClick={() => setFormData({...formData, role})}

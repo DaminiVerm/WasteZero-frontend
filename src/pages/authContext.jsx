@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { applyAuthSession, clearAuthSession } from "../services/api";
 
 export const AuthContext = createContext();
 
@@ -15,8 +16,12 @@ export const AuthProvider = ({ children }) => {
       const { data } = await axios.get("/api/auth/check");
       if (data.success) {
         setAuthUser(data.user);
+      } else {
+        clearAuthSession();
+        setToken(null);
       }
     } catch {
+      clearAuthSession();
       setAuthUser(null);
     } finally {
       setLoading(false);
@@ -66,12 +71,9 @@ export const AuthProvider = ({ children }) => {
       const { data } = await axios.post(`/api/auth/${state}`, credentials);
 
       if (data.token) {
-        localStorage.setItem("token", data.token);
+        applyAuthSession({ token: data.token, user: data.user });
         setToken(data.token);
         setAuthUser(data.user);
-
-        axios.defaults.headers.common["Authorization"] =
-          `Bearer ${data.token}`;
 
         return true;
       }
@@ -83,8 +85,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    delete axios.defaults.headers.common["Authorization"];
+    clearAuthSession();
     setToken(null);
     setAuthUser(null);
   };

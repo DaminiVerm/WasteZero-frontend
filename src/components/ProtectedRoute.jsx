@@ -4,7 +4,15 @@ import { Navigate, Outlet } from "react-router-dom";
 const ProtectedRoute = ({ allowedRoles }) => {
   const token = localStorage.getItem("token");
   const storedUser = localStorage.getItem("user");
-  const user = storedUser ? JSON.parse(storedUser) : null;
+  let user = null;
+
+  if (storedUser) {
+    try {
+      user = JSON.parse(storedUser);
+    } catch {
+      user = null;
+    }
+  }
 
   if (!token || !user || !user.role) {
     // Not logged in or corrupted state
