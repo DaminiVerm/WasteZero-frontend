@@ -4,6 +4,7 @@ import { FiSearch, FiPlus, FiMapPin, FiCalendar, FiFilter, FiCheckCircle, FiArro
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
+import { buildImageUrl } from "../services/api";
 
 export default function OpportunitiesPage() {
   const [data, setData] = useState([]);
@@ -51,12 +52,6 @@ export default function OpportunitiesPage() {
       item.description?.toLowerCase().includes(search.toLowerCase())) &&
     (status === "All" || item.status === status)
   );
-
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return "https://placehold.co/600x400?text=WasteZero+Opportunity";
-    const cleanPath = imagePath.replace(/^\/+/, "");
-    return cleanPath.startsWith("uploads") ? `/${cleanPath}` : `/uploads/${cleanPath}`;
-  };
 
   const getApplicationStatus = (opportunity) => {
     const applicant = opportunity?.applicants?.find((app) => {
@@ -145,7 +140,7 @@ export default function OpportunitiesPage() {
                   >
                     <div className="relative h-56 overflow-hidden">
                       <img
-                        src={getImageUrl(o.image)}
+                        src={buildImageUrl(o.image)}
                         alt={o.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />

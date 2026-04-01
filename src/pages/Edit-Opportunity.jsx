@@ -4,6 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FiArrowLeft, FiImage, FiSettings, FiMapPin, FiCalendar, FiClock, FiBriefcase } from "react-icons/fi";
+import { buildImageUrl } from "../services/api";
 
 export default function EditOpportunity() {
   const { id } = useParams();
@@ -36,7 +37,7 @@ export default function EditOpportunity() {
             ? res.data.requiredSkills.join(", ") 
             : res.data.requiredSkills || ""
         });
-        setPreview(res.data.image ? `/${res.data.image}` : "");
+        setPreview(res.data.image ? buildImageUrl(res.data.image) : "");
       } catch (err) {
         console.error(err);
         toast.error("Failed to load strategy details");

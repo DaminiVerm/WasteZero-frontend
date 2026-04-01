@@ -9,6 +9,26 @@ export const buildApiUrl = (path = "") => {
     return `${apiBaseUrl}${normalizedPath}`;
 };
 
+export const buildImageUrl = (imagePath) => {
+    if (!imagePath) {
+        return "https://placehold.co/1200x600?text=WasteZero+Campaign";
+    }
+
+    if (/^https?:\/\//i.test(imagePath)) {
+        return imagePath;
+    }
+
+    const cleanPath = imagePath.replace(/^\/+/, "");
+
+    if (!backendUrl) {
+        return cleanPath.startsWith("uploads") ? `/${cleanPath}` : `/uploads/${cleanPath}`;
+    }
+
+    return cleanPath.startsWith("uploads")
+        ? `${backendUrl}/${cleanPath}`
+        : `${backendUrl}/uploads/${cleanPath}`;
+};
+
 export const applyAuthSession = ({ token, user }) => {
     if (token) {
         localStorage.setItem("token", token);
