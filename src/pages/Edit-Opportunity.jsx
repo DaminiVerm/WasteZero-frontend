@@ -4,7 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FiArrowLeft, FiImage, FiSettings, FiMapPin, FiCalendar, FiClock, FiBriefcase } from "react-icons/fi";
-import { buildImageUrl } from "../services/api";
+import { buildImageUrl, getImageFallback } from "../services/api";
 
 export default function EditOpportunity() {
   const { id } = useParams();
@@ -217,7 +217,14 @@ console.log("TOKEN:", token);
             <div className="relative group cursor-pointer h-64 bg-gray-50 dark:bg-gray-800 rounded-[2.5rem] border-2 border-dashed border-gray-200 dark:border-gray-700 flex flex-col items-center justify-center transition-all hover:bg-white dark:hover:bg-gray-800 hover:border-indigo-400 dark:hover:border-indigo-500 overflow-hidden">
                 {preview ? (
                     <>
-                        <img src={preview} className="absolute inset-0 w-full h-full object-cover opacity-80" />
+                        <img
+                          src={preview}
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = getImageFallback(formData.title || "WasteZero Campaign");
+                          }}
+                          className="absolute inset-0 w-full h-full object-cover opacity-80"
+                        />
                         <div className="relative z-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md px-6 py-3 rounded-2xl text-indigo-600 dark:text-indigo-400 font-black flex items-center shadow-2xl">
                              Update Banner
                         </div>

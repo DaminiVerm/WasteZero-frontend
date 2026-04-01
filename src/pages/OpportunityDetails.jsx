@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API from "../services/api";
-import { buildImageUrl } from "../services/api";
+import { buildImageUrl, getImageFallback } from "../services/api";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FiMapPin, FiCalendar, FiClock, FiTrash2, FiEdit3, FiCheckCircle, FiUser, FiArrowLeft, FiMessageCircle } from "react-icons/fi";
@@ -104,7 +104,15 @@ export default function OpportunityDetails() {
         className="bg-white dark:bg-gray-900 rounded-[3.5rem] shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-800 transition-colors"
       >
         <div className="relative h-96 overflow-hidden">
-             <img src={buildImageUrl(data.image)} alt={data.title} className="w-full h-full object-cover" />
+             <img
+               src={buildImageUrl(data.image)}
+               alt={data.title}
+               onError={(e) => {
+                 e.currentTarget.onerror = null;
+                 e.currentTarget.src = getImageFallback(data.title || "WasteZero Campaign");
+               }}
+               className="w-full h-full object-cover"
+             />
              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
              <div className="absolute bottom-12 left-12 right-12 text-white space-y-4">
                 <div className="flex items-center space-x-3">

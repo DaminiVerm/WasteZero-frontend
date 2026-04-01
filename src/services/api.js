@@ -29,6 +29,9 @@ export const buildImageUrl = (imagePath) => {
         : `${backendUrl}/uploads/${cleanPath}`;
 };
 
+export const getImageFallback = (label = "WasteZero Campaign") =>
+    `https://placehold.co/1200x600?text=${encodeURIComponent(label)}`;
+
 export const applyAuthSession = ({ token, user }) => {
     if (token) {
         localStorage.setItem("token", token);

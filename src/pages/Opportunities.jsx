@@ -4,7 +4,7 @@ import { FiSearch, FiPlus, FiMapPin, FiCalendar, FiFilter, FiCheckCircle, FiArro
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
-import { buildImageUrl } from "../services/api";
+import { buildImageUrl, getImageFallback } from "../services/api";
 
 export default function OpportunitiesPage() {
   const [data, setData] = useState([]);
@@ -142,6 +142,10 @@ export default function OpportunitiesPage() {
                       <img
                         src={buildImageUrl(o.image)}
                         alt={o.title}
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = getImageFallback(o.title || "WasteZero Opportunity");
+                        }}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
