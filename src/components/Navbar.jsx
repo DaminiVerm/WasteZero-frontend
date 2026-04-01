@@ -19,15 +19,15 @@ const Navbar = () => {
     };
 
     return (
-        <header className="min-h-20 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 z-50 relative transition-colors duration-300">
-            <div className="flex items-center min-w-0 space-x-3 sm:space-x-8">
+        <header className="min-h-20 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between gap-3 px-3 sm:px-6 lg:px-8 py-3 z-50 relative transition-colors duration-300">
+            <div className="flex items-center min-w-0 flex-1 space-x-2 sm:space-x-8">
                 <div className="flex items-center min-w-0 space-x-2 text-green-600">
-                    <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">W</div>
-                    <span className="text-base sm:text-xl font-black uppercase text-gray-900 dark:text-white truncate">WasteZero</span>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 bg-green-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">W</div>
+                    <span className="text-sm sm:text-xl font-black uppercase text-gray-900 dark:text-white truncate">WasteZero</span>
                 </div>
             </div>
 
-            <div className="flex items-center flex-shrink-0 space-x-2 sm:space-x-4 md:space-x-6">
+            <div className="flex items-center flex-shrink-0 gap-2 sm:gap-3 md:gap-4">
                 {/* Theme Toggle */}
                 <button 
                     onClick={toggleTheme}
@@ -52,19 +52,19 @@ const Navbar = () => {
                 </button>
 
                 {/* Profile Section */}
-                <div className="relative">
+                <div className="relative max-w-[150px] sm:max-w-none">
                     <div 
                         onClick={() => setDropdownOpen(!dropdownOpen)}
-                        className="flex items-center space-x-2 sm:space-x-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 px-2 sm:px-4 py-2 rounded-2xl transition-all max-w-[180px] sm:max-w-none"
+                        className="flex items-center space-x-2 sm:space-x-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 px-2 sm:px-3 py-2 rounded-2xl transition-all max-w-[150px] sm:max-w-none"
                     >
-                        <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-indigo-100 uppercase overflow-hidden">
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-lg shadow-indigo-100 uppercase overflow-hidden flex-shrink-0">
                             {user?.name?.charAt(0) || "U"}
                         </div>
                         <div className="hidden md:block min-w-0">
-                            <p className="text-sm font-bold text-gray-900 dark:text-gray-100 leading-none">{user?.name || "User Account"}</p>
+                            <p className="text-sm font-bold text-gray-900 dark:text-gray-100 leading-none truncate">{user?.name || "User Account"}</p>
                             <span className="text-[10px] font-black uppercase text-green-600 dark:text-green-400 tracking-widest">{user?.role || "Volunteer"}</span>
                         </div>
-                        <FiChevronDown className={`text-gray-400 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+                        <FiChevronDown className={`hidden sm:block text-gray-400 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
                     </div>
 
                     <AnimatePresence>
@@ -73,7 +73,7 @@ const Navbar = () => {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
-                                className="absolute right-0 mt-4 w-64 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700 p-3 z-50 overflow-hidden"
+                                className="absolute right-0 mt-3 w-[min(16rem,calc(100vw-1.5rem))] bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700 p-3 z-50 overflow-hidden"
                             >
                                 <div className="p-4 border-b border-gray-50 dark:border-gray-700 space-y-1">
                                     <p className="text-sm font-bold text-gray-900 dark:text-gray-100">{user?.name}</p>

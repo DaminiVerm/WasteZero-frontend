@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export default function Layout() {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50/50 dark:bg-gray-950 transition-colors duration-300">
+    <div className="min-h-screen flex flex-col overflow-x-hidden bg-gray-50/50 dark:bg-gray-950 transition-colors duration-300">
       <Navbar />
 
       <div className="flex flex-1 overflow-hidden">
@@ -17,7 +17,7 @@ export default function Layout() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-[1600px] mx-auto min-h-full px-4 py-6 sm:px-6 sm:py-8 lg:p-10 pb-28 lg:pb-10"
+            className="max-w-[1600px] mx-auto min-h-full px-3 py-4 sm:px-5 sm:py-6 md:px-6 md:py-8 lg:px-10 lg:py-10 pb-24 sm:pb-28 lg:pb-10"
           >
             <Outlet />
           </motion.div>

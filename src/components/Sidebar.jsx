@@ -78,18 +78,18 @@ const Sidebar = () => {
       </div>
 
       <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur lg:hidden overflow-x-auto">
-        <div className="flex min-w-max gap-1 px-2 py-2">
+        <div className="flex min-w-max gap-1 px-2 py-2 sm:justify-center">
           {visibleItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              className={`min-w-[82px] flex flex-col items-center justify-center rounded-2xl py-2 px-2 text-[10px] font-black uppercase tracking-widest transition-all ${
+              className={`min-w-[76px] sm:min-w-[82px] flex flex-col items-center justify-center rounded-2xl py-2 px-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all ${
                 location.pathname === item.path
                   ? "bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400"
                   : "text-gray-400 dark:text-gray-500"
               }`}
             >
-              <span className="text-lg mb-1">{item.icon}</span>
+              <span className="text-base sm:text-lg mb-1">{item.icon}</span>
               <span className="truncate max-w-full">{item.short}</span>
             </Link>
           ))}
