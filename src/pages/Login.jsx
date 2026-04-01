@@ -4,14 +4,15 @@ import { loginUser, verifyLoginOtp, resendOtp } from "../services/authService";
 import { applyAuthSession } from "../services/api";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
-import { FiMail, FiLock, FiShield, FiArrowRight } from "react-icons/fi";
+import { FiLock, FiShield, FiArrowRight, FiUser } from "react-icons/fi";
 
 const Login = () => {
     const navigate = useNavigate();
-    const [credentials, setCredentials] = useState({ email: "", password: "" });
+    const [credentials, setCredentials] = useState({ identifier: "", password: "" });
     const [step, setStep] = useState(1); // 1 for credentials, 2 for OTP
     const [otp, setOtp] = useState("");
     const [userId, setUserId] = useState(null);
+    const [deliveryEmail, setDeliveryEmail] = useState("");
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -25,6 +26,7 @@ const Login = () => {
         try {
             const res = await loginUser(credentials);
             setUserId(res.userId);
+            setDeliveryEmail(res.deliveryEmail || "");
             setStep(2);
             toast.success("OTP sent to your email!");
         } catch (err) {
@@ -103,20 +105,19 @@ const Login = () => {
                         >
                             <div className="space-y-2">
                                 <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Sign In</h1>
-                                <p className="text-gray-500 dark:text-gray-400 font-medium">Welcome back! Please enter your details.</p>
+                                <p className="text-gray-500 dark:text-gray-400 font-medium">Welcome back! Use your email or username plus password.</p>
                             </div>
                             <form onSubmit={handleLogin} className="space-y-5">
                                 <div className="space-y-1">
-                                    <label className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-widest text-[10px]">Email Address</label>
+                                    <label className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-widest text-[10px]">Email or Username</label>
                                     <div className="relative">
-                                        <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+                                        <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
                                         <input 
-                                            type="email" 
                                             className="w-full border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-green-500 rounded-xl py-4 pl-12 pr-4 outline-none transition-all duration-300 dark:text-white"
-                                            placeholder="you@example.com"
+                                            placeholder="you@example.com or username"
                                             required
-                                            autoComplete="email"
-                                            onChange={(e) => setCredentials({...credentials, email: e.target.value})}
+                                            autoComplete="username"
+                                            onChange={(e) => setCredentials({...credentials, identifier: e.target.value})}
                                         />
                                     </div>
                                 </div>
@@ -165,7 +166,7 @@ const Login = () => {
                             </div>
                             <div className="space-y-2">
                                 <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">Two-Factor Auth</h1>
-                                <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Please enter the security code sent to <br/> <strong className="text-indigo-600 dark:text-indigo-400">{credentials.email}</strong></p>
+                                <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Please enter the security code sent to <br/> <strong className="text-indigo-600 dark:text-indigo-400">{deliveryEmail || "your email address"}</strong></p>
                             </div>
                             <form onSubmit={handleVerifyOtp} className="space-y-6">
                                 <input 
