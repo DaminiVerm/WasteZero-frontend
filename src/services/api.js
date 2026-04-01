@@ -1,6 +1,14 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
+export const backendUrl = (import.meta.env.VITE_BACKEND_URL || "").replace(/\/$/, "");
+export const apiBaseUrl = backendUrl ? `${backendUrl}/api` : "/api";
+
+export const buildApiUrl = (path = "") => {
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    return `${apiBaseUrl}${normalizedPath}`;
+};
+
 export const applyAuthSession = ({ token, user }) => {
     if (token) {
         localStorage.setItem("token", token);
@@ -19,9 +27,13 @@ export const clearAuthSession = () => {
 };
 
 const API = axios.create({
-    baseURL: "/api",
+    baseURL: apiBaseUrl,
     timeout: 30000,
 });
+
+if (backendUrl) {
+    axios.defaults.baseURL = backendUrl;
+}
 
 const existingToken = localStorage.getItem("token");
 if (existingToken) {

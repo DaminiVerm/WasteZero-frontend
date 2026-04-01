@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { FiPlus, FiMapPin, FiCalendar, FiClock, FiImage, FiSettings, FiBriefcase, FiTrash2 } from "react-icons/fi";
+import { buildApiUrl } from "../services/api";
 
 export default function CreateOpportunity() {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ export default function CreateOpportunity() {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("/api/opportunity/create", {
+      const res = await fetch(buildApiUrl("/opportunity/create"), {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData
