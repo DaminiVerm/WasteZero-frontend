@@ -150,6 +150,38 @@ export default function Dashboard() {
     }
   };
 
+  const handlePickupComplete = async (pickupId) => {
+    try {
+      await axios.put(
+        `/api/pickups/${pickupId}/complete`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      setData((prev) => ({
+        ...prev,
+        pickups: (prev?.pickups || []).map((pickup) =>
+          pickup._id === pickupId
+            ? { ...pickup, status: "Closed" }
+            : pickup
+        ),
+        stats: {
+          ...(prev?.stats || {}),
+          completedPickups: ((prev?.stats || {}).completedPickups || 0) + 1,
+        },
+      }));
+
+      toast.success("Pickup marked as completed");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to complete pickup");
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
@@ -323,6 +355,8 @@ export default function Dashboard() {
                       <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest ${
                         p.status === "Accepted"
                           ? "bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400"
+                          : p.status === "Closed" || p.status === "Completed"
+                            ? "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400"
                           : "bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400"
                       }`}>
                         {p.status}
@@ -330,13 +364,25 @@ export default function Dashboard() {
                     </td>
                     <td className="px-8 py-5">
                       {p.status === "Pending" ? (
-                        <button
-                          type="button"
-                          onClick={() => handlePickupAccept(p._id)}
-                          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest"
-                        >
-                          Accept
-                        </button>
+                        <div className="flex flex-wrap gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handlePickupAccept(p._id)}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest"
+                          >
+                            Accept
+                          </button>
+                        </div>
+                      ) : p.status === "Accepted" ? (
+                        <div className="flex flex-wrap gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handlePickupComplete(p._id)}
+                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest"
+                          >
+                            Complete
+                          </button>
+                        </div>
                       ) : (
                         <span className="text-[10px] font-black uppercase tracking-widest text-gray-300">
                           -

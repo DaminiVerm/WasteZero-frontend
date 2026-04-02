@@ -63,7 +63,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <div className="hidden lg:flex h-full bg-white dark:bg-gray-900 flex-col border-r border-gray-100 dark:border-gray-800 transition-colors duration-300">
+      <div className="hidden lg:flex h-full bg-white dark:bg-gray-900 flex-col border-r border-gray-100 dark:border-gray-800 transition-colors duration-300 overflow-y-auto">
         <nav className="flex-1 py-4 overflow-y-auto">
           <div className="px-6 py-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-2">Main Menu</div>
           {navItems.filter((item) => item.roles.includes(role)).map(renderDesktopLink)}

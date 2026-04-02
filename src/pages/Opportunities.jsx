@@ -128,7 +128,8 @@ export default function OpportunitiesPage() {
                 const isApplied = Boolean(applicationStatus);
 
                 return (
-                  <motion.div
+                  <motion.button
+                    type="button"
                     key={o._id}
                     layout
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -136,7 +137,7 @@ export default function OpportunitiesPage() {
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ delay: idx * 0.05 }}
                     onClick={() => navigate(`/opportunity/${o._id}`)}
-                    className="bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-2xl hover:border-green-200 dark:hover:border-green-700 transition-all cursor-pointer group flex flex-col"
+                    className="text-left bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-2xl hover:border-green-200 dark:hover:border-green-700 transition-all cursor-pointer group flex flex-col"
                   >
                     <div className="relative h-56 overflow-hidden">
                       <img
@@ -213,7 +214,7 @@ export default function OpportunitiesPage() {
                         </div>
                       </div>
                     </div>
-                  </motion.div>
+                  </motion.button>
                 );
               })
             ) : (

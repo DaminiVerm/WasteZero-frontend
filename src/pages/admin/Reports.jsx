@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FiClock, FiActivity, FiSearch, FiArrowRight } from "react-icons/fi";
+import { FiClock, FiActivity, FiArrowRight, FiTrash2 } from "react-icons/fi";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 const Reports = () => {
   const [logs, setLogs] = useState([]);
@@ -23,6 +24,21 @@ const Reports = () => {
     };
     fetchLogs();
   }, []);
+
+  const handleDeleteLog = async (logId) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`/api/admin/logs/${logId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      setLogs((currentLogs) => currentLogs.filter((log) => log._id !== logId));
+      toast.success("Audit entry deleted");
+    } catch (err) {
+      console.error("Error deleting log", err);
+      toast.error("Failed to delete audit entry");
+    }
+  };
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-10 max-w-5xl mx-auto space-y-10">
@@ -61,7 +77,17 @@ const Reports = () => {
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">+{log.value || 1}</span>
+                <div className="flex items-center justify-end gap-3">
+                  <span className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">+{log.value || 1}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteLog(log._id)}
+                    className="p-2 rounded-xl border border-red-100 dark:border-red-900/30 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                    aria-label="Delete audit log"
+                  >
+                    <FiTrash2 size={16} />
+                  </button>
+                </div>
                 <p className="text-[10px] text-gray-400 dark:text-gray-500 font-black uppercase tracking-widest">Impact Score</p>
               </div>
             </div>

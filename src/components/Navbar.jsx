@@ -19,7 +19,7 @@ const Navbar = () => {
     };
 
     return (
-        <header className="min-h-20 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between gap-3 px-3 sm:px-6 lg:px-8 py-3 z-50 relative transition-colors duration-300">
+        <header className="fixed top-0 left-0 right-0 min-h-20 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-gray-100 dark:border-gray-800 flex items-center justify-between gap-3 px-3 sm:px-6 lg:px-8 py-3 z-50 transition-colors duration-300">
             <div className="flex items-center min-w-0 flex-1 space-x-2 sm:space-x-8">
                 <div className="flex items-center min-w-0 space-x-2 text-green-600">
                     <div className="w-8 h-8 sm:w-9 sm:h-9 bg-green-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">W</div>
